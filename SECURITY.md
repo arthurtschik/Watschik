@@ -23,5 +23,9 @@ Gepflegt wird jeweils die **neueste Version** (siehe Releases). Ältere Versione
   kann die Daten lesen.
 - Der **TMDB-Schlüssel** steckt – verschleiert – in der APK und lässt sich von jedem auslesen, der die App
   gezielt zerlegt. Er ist kostenlos und mit keinen Nutzerdaten verbunden; im Missbrauchsfall wird er gesperrt und ersetzt.
+- **Updates aus der App:** Watschik fragt bei GitHub das neueste Release ab, lädt die `Watschik.apk` und prüft sie
+  gegen die SHA-256-Prüfsumme der Release-Abfrage. Vor der Installation kontrolliert die App Paketname, Signatur und
+  Versionsnummer (nur neuere Versionen mit demselben Signaturschlüssel). Installiert wird erst nach deiner Bestätigung
+  im Android-Dialog. Die Funktion ist in den Einstellungen abschaltbar.
 - Releases werden ausschließlich automatisch gebaut und mit einem Schlüssel signiert, der nur als geheimer
   Wert in der Bau-Umgebung existiert. Den Fingerabdruck des Zertifikats findest du in der README.
