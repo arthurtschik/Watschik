@@ -22,6 +22,8 @@ keine Nutzungsanalyse, kein eigener Server.
 - **Hinweise:** Kinostarts, neue Staffeln, neu bei deinen Anbietern – von deinem Handy erzeugt, ohne Push-Server.
 - **Datensicherung:** verschlüsselt (AES-256), per Teilen-Menü aufs nächste Handy; Listen-Export als
   Tabelle oder für Letterboxd.
+- **Google-Drive-Sicherung (optional):** automatisch einmal pro Woche, auf dem Handy verschlüsselt, nur im versteckten
+  App-Ordner deines Google Drive; Wiederherstellung mit deinem Wiederherstellungscode.
 
 ## Installation
 
