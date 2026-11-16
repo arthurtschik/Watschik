@@ -25,7 +25,8 @@ keine Nutzungsanalyse, kein eigener Server.
 
 ## Installation
 
-1. Unter [**Releases**](../../releases) die neueste `Watschik-vX.Y.Z.apk` herunterladen.
+1. Auf der [**Download-Seite**](https://arthurtschik.github.io/Watschik/) die aktuelle Version laden (die Datei heißt immer
+   `Watschik.apk`; ältere Versionen findest du unter [Releases](../../releases)).
 2. Auf dem Android-Handy öffnen und „Installation aus unbekannten Quellen“ erlauben.
 3. Updates einfach über die bisherige Version installieren – die Daten bleiben erhalten.
 
