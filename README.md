@@ -24,6 +24,7 @@ keine Nutzungsanalyse, kein eigener Server.
   Tabelle oder für Letterboxd.
 - **Google-Drive-Sicherung (optional):** automatisch einmal pro Woche, auf dem Handy verschlüsselt, nur im versteckten
   App-Ordner deines Google Drive; Wiederherstellung mit deinem Wiederherstellungscode.
+- **Bugs melden / Wünsche:** direkt in der App (Einstellungen → Hilfe & FAQ), optional mit E-Mail oder Discord-Name für Rückfragen.
 
 ## Installation
 

@@ -21,6 +21,8 @@ Gepflegt wird jeweils die **neueste Version** (siehe Releases). Ältere Versione
 - Die optionale **Google-Drive-Sicherung** verschlüsselt auf dem Handy (AES-256-GCM) mit einem zufälligen Wiederherstellungscode, der
   nur im Android Keystore liegt. Watschik nutzt ausschließlich den versteckten App-Ordner (`drive.appdata`), keinen anderen Drive-Inhalt;
   ohne den Code kann weder Google noch der Entwickler die Sicherung lesen. Der Zugriff lässt sich jederzeit im Google-Konto widerrufen.
+- **Bugs melden / Wünsche** wird erst beim Antippen von „Senden“ über den Formulardienst Web3Forms an den Entwickler geschickt
+  (Text, freiwillige Kontaktangabe, App- und Android-Version). Die App begrenzt Länge und Häufigkeit; es gibt keinen eigenen Server.
 - Die **PIN** eines Profils ist ein **Sichtschutz** gegen neugierige Blicke (mit Wartezeit nach Fehlversuchen),
   **keine Verschlüsselung** der Daten auf dem Gerät. Wer das entsperrte Handy oder dessen Speicher in der Hand hat,
   kann die Daten lesen.
