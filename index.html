@@ -54,6 +54,18 @@
   .legal .body h2 { margin: 12px 0 2px; color: var(--dim); font-size: 12px; }
   .legal .body p { margin: 0 0 6px; }
   footer { width: 100%; max-width: 460px; margin-top: 44px; color: var(--faint); font-size: 11.5px; line-height: 1.55; text-align: center; }
+
+  .news { margin-top: 18px; text-align: left; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+  .news summary { cursor: pointer; padding: 11px 16px; color: var(--dim); font-size: 13.5px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .news summary::-webkit-details-marker { display: none; }
+  .news summary::after { content: "+"; color: var(--accent); font-weight: 800; }
+  .news[open] summary::after { content: "\2013"; }
+  .news .nb { padding: 0 16px 14px; color: var(--dim); font-size: 13px; line-height: 1.55; }
+  .news .nb h3 { margin: 10px 0 4px; color: var(--text); font-size: 13px; }
+  .news .nb p { margin: 0 0 8px; }
+  .news .nb ul { margin: 0 0 8px; padding-left: 18px; }
+  .news .nb li { margin: 0 0 5px; }
+  .news .nb strong { color: var(--text); }
   a { color: inherit; }
 </style>
 </head>
@@ -65,6 +77,10 @@
 
   <a id="dl" class="btn" href="https://github.com/arthurtschik/Watschik/releases/latest/download/Watschik.apk">Hier downloaden</a>
   <p id="meta" class="meta">Suche aktuelle Version …</p>
+  <details id="news" class="news" hidden>
+    <summary id="newsTitle">Was ist neu?</summary>
+    <div id="newsBody" class="nb"></div>
+  </details>
   <p class="hint">Nach dem Download die Datei öffnen und die Installation bestätigen (eventuell musst du „Installation aus unbekannten Quellen“ erlauben). Updates einfach über die bisherige Version installieren – deine Daten bleiben erhalten.</p>
   <a class="store" href="https://arthurtschik.github.io/TschikStore/">Alle Apps</a>
   <noscript><p class="meta">Der Knopf lädt auch ohne JavaScript direkt die aktuelle Version.</p></noscript>
@@ -113,6 +129,50 @@
     var REPO = "arthurtschik/Watschik";
     var btn = document.getElementById("dl");
     var meta = document.getElementById("meta");
+    // Release-Notizen (Markdown-Auszug) → einfache Blöcke.
+    function parseNotes(md) {
+      var blocks = [], list = null;
+      String(md || "").replace(/\r/g, "").split("\n").forEach(function (line) {
+        line = line.trim();
+        if (!line) { list = null; return; }
+        var m;
+        if ((m = line.match(/^#{1,6}\s+(.*)$/))) { list = null; blocks.push({ t: "h", text: m[1] }); }
+        else if ((m = line.match(/^[-*]\s+(.*)$/))) {
+          if (!list) { list = { t: "ul", items: [] }; blocks.push(list); }
+          list.items.push(m[1]);
+        } else { list = null; blocks.push({ t: "p", text: line }); }
+      });
+      return blocks;
+    }
+    // Fetter Text (**so**) als <strong>; alles andere nur als Text (kein innerHTML).
+    function inline(parent, text) {
+      text.split(/(\*\*[^*]+\*\*)/).forEach(function (part) {
+        if (/^\*\*[^*]+\*\*$/.test(part)) {
+          var s = document.createElement("strong"); s.textContent = part.slice(2, -2); parent.appendChild(s);
+        } else if (part) { parent.appendChild(document.createTextNode(part)); }
+      });
+    }
+    function showNews(rel) {
+      var blocks = parseNotes(rel.body);
+      if (blocks.length && blocks[0].t === "h") blocks.shift(); // Titel steht schon in der Zeile
+      blocks = blocks.filter(function (b) { return !(b.t === "p" && /^Dieses Update kommt/.test(b.text)); });
+      if (!blocks.length) return;
+      var body = document.getElementById("newsBody");
+      blocks.forEach(function (b) {
+        var el;
+        if (b.t === "ul") {
+          el = document.createElement("ul");
+          b.items.forEach(function (it) { var li = document.createElement("li"); inline(li, it); el.appendChild(li); });
+        } else {
+          el = document.createElement(b.t === "h" ? "h3" : "p");
+          inline(el, b.text);
+        }
+        body.appendChild(el);
+      });
+      document.getElementById("newsTitle").textContent =
+        "Was ist neu in Version " + String(rel.tag_name || "").replace(/^v/i, "") + "?";
+      document.getElementById("news").hidden = false;
+    }
     fetch("https://api.github.com/repos/" + REPO + "/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (rel) {
@@ -122,6 +182,7 @@
         var mb = (apk.size / 1048576).toFixed(1).replace(".", ",");
         var date = rel.published_at ? new Date(rel.published_at).toLocaleDateString("de-DE") : "";
         meta.textContent = "Version " + String(rel.tag_name || "").replace(/^v/i, "") + " · " + mb + " MB" + (date ? " · " + date : "");
+        showNews(rel);
       })
       .catch(function () {
         meta.textContent = "Die aktuelle Version findest du über den Knopf.";
